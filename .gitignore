@@ -3,6 +3,7 @@
 virtenv/
 .openshift/
 *.sqlite
+static/vendor/
 
 ### Python template
 # Byte-compiled / optimized / DLL files
