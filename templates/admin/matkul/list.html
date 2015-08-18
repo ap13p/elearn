@@ -1,0 +1,46 @@
+{% extends 'admin/_layout.html' %}
+
+{% block content %}
+    <div class="admin-content-header">
+        <a href="{{ url_for('admin:matkul:create') }}" class="btn btn-info">Tambah Mata Kuliah</a>
+    </div>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th width="3%">Kode</th>
+            <th>Judul</th>
+            <th width="15%">Dosen</th>
+            <th width="10%">Aksi</th>
+        </tr>
+        {% for matkul in matkuls %}
+            <tr>
+                <td>{{ matkul.kode }}</td>
+                <td>{{ matkul.judul }}</td>
+                <td>{{ matkul.dosen.name }}</td>
+                <td>
+                    <div class="btn-group btn-group-xs">
+                        <a href="{{ url_for('admin:matkul:update', matkul_id=matkul.id) }}" class="btn btn-default">Update</a>
+                        <a href="{{ url_for('admin:matkul:delete', matkul_id=matkul.id) }}" class="btn btn-danger">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+            <td colspan="4">Tabel Mata Kuliah kosong</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <nav>
+        <ul class="pager">
+            {% if page > 1 %}
+                <li><a href="?page={{ page - 1 }}">Previous</a></li>
+            {% else %}
+                <li class="disabled"><a href="#">Previous</a></li>
+            {% endif %}
+            {% if page < pagination.get_pages() %}
+                <li><a href="?page={{ page + 1 }}">Next</a></li>
+            {% else %}
+                <li class="disabled"><a href="#">Next</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'dosen/home.html' %}
+{% from 'macro/home.html' import render_form %}
+
+{% block content %}
+    <div class="admin-content-header">
+        <a href="{{ url_for('dosen:tugas:list') }}" class="btn btn-default">Kembali</a>
+    </div>
+    {{ render_form(form) }}
+{% endblock %}

@@ -1,0 +1,7 @@
+body {
+    padding-top: 60px;
+    background: url("/static/img/noise2.png");
+}
+.admin-content-header {
+    margin-bottom:10px;
+}

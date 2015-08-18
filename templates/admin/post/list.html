@@ -1,0 +1,46 @@
+{% extends 'admin/_layout.html' %}
+
+{% block content %}
+    <div class="admin-content-header">
+        <a href="{{ url_for('admin:post:create') }}" class="btn btn-info">Tambah Posting</a>
+    </div>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th width="3%">No.</th>
+            <th>Judul</th>
+            <th width="10%">Publik</th>
+            <th width="10%">Aksi</th>
+        </tr>
+        {% for post in posts %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ post.judul }}</td>
+                <td>{{ post.publik }}</td>
+                <td>
+                    <div class="btn-group btn-group-xs">
+                        <a href="{{ url_for('admin:post:update', post_id=post.id) }}" class="btn btn-default">Update</a>
+                        <a href="{{ url_for('admin:post:delete', post_id=post.id) }}" class="btn btn-danger">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+            <td colspan="4">Tabel Posting kosong</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <nav>
+        <ul class="pager">
+            {% if page > 1 %}
+                <li><a href="?page={{ page - 1 }}">Previous</a></li>
+            {% else %}
+                <li class="disabled"><a href="#">Previous</a></li>
+            {% endif %}
+            {% if page < pagination.get_pages() %}
+                <li><a href="?page={{ page + 1 }}">Next</a></li>
+            {% else %}
+                <li class="disabled"><a href="#">Next</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}

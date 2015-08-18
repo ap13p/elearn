@@ -1,0 +1,48 @@
+{% extends 'mhs/base.html' %}
+{% from 'macro/home.html' import render_form %}
+
+{% block head_tail %}
+    <style>
+        .mhs-tugas-detail {
+            background: #f8f8f8;
+            padding: 10px 20px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-9 mhs-tugas-detail">
+            <h4 class="tugas-title">{{ tugas.judul }}</h4>
+
+            <div class="tugas-meta">
+                <small><i class="glyphicon glyphicon-calendar"></i> {{ tugas.tanggal_terakhir }}</small>
+                <small><i class="glyphicon glyphicon-book"></i> {{ tugas.mata_kuliah.judul }}</small>
+            </div>
+            <p class="tugas-keterangan">
+                {{ tugas.keterangan|safe|default('Tidak ada keterangan') }}
+            </p>
+        </div>
+        <div class="col-md-3">
+            {% if sudah_mengumpulkan %}
+                <div class="panel panel-success">
+                    <div class="panel-heading">Kumpulkan Tugas</div>
+                    <div class="panel-body"><i class="glyphicon glyphicon-ok"></i> Selesai</div>
+                </div>
+            {% else %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">Kumpulkan Tugas</div>
+                    <div class="panel-body">
+                        <form action="{{ url_for('mhs:tugas:kumpulkan', tugas_id=tugas.id) }}" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="phile">File Tugas</label>
+                                <input type="file" class="form-control" id="phile" name="phile">
+                            </div>
+                            <input type="submit" value="Submit" class="btn btn-primary">
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
