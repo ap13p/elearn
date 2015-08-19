@@ -1,7 +1,7 @@
 import os
 from flask import render_template, g, flash, request, url_for, current_app, redirect
 from forms.others import KumpulkanTugasForm
-from models import User, Tugas, KumpulTugas, MataKuliah, Post, Level
+from models import User, Tugas, KumpulTugas, MataKuliah, Post, Level, Phile
 from decorators import mhs_required, current_user
 from peewee import JOIN
 from werkzeug.datastructures import FileStorage
@@ -15,7 +15,6 @@ def generate_path(user_id, tugas_id):
     if not os.path.exists(path):
         os.makedirs(path)
     return path
-
 
 
 @mhs_required
@@ -52,7 +51,6 @@ def tugas_detail(tugas_id):
 @mhs_required
 def tugas_kumpulkan(tugas_id):
     tugas = Tugas.get(Tugas.id == tugas_id)
-    form = KumpulkanTugasForm(request.form)
     user = current_user()
     kumpul_tugas = KumpulTugas()
     kumpul_tugas.mahasiswa = user
@@ -62,6 +60,11 @@ def tugas_kumpulkan(tugas_id):
         path = generate_path(str(user.id), str(tugas.id))
         path = os.path.join(path, secure_filename(phile.filename))
         phile.save(path)
-        kumpul_tugas.file_path = path
+        f = Phile()
+        f.filename = phile.filename
+        f.filetype = phile.mimetype
+        f.filepath = path
+        f.save()
+        kumpul_tugas.phile = f
     kumpul_tugas.save()
     return redirect(url_for('mhs:tugas:detail', tugas_id=tugas.id))

@@ -6,6 +6,11 @@ from peewee import CharField, TextField, BooleanField, ForeignKeyField, DateFiel
 from models.auth import User
 
 
+class Phile(db.Model):
+    filename = CharField(max_length=100)
+    filetype = CharField(max_length=100)
+    filepath = TextField()
+
 class Post(db.Model):
     judul = CharField(max_length=100)
     konten = TextField()
@@ -29,7 +34,7 @@ class KumpulTugas(db.Model):
     tugas = ForeignKeyField(Tugas)
     mahasiswa = ForeignKeyField(User)
     tanggal_mengumpulkan = DateField(default=datetime.now)
-    file_path = TextField()
+    phile = ForeignKeyField(Phile)
 
 
 class UploadTugas(db.Model):

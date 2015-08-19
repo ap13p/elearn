@@ -23,7 +23,7 @@
                     <ul>
                         {% for data in mhs_yg_mengumpulkan %}
                             <li>{{ data.mahasiswa.name }} - <a
-                                    href="{{ url_for('sendfile', file_id=data.id, download=True) }}">download</a>
+                                    href="{{ url_for('sendfile', file_id=data.phile.id, download=True) }}">download</a>
                             </li>
                         {% endfor %}
                     </ul>

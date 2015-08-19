@@ -14,7 +14,7 @@ def create_app():
     db.database.create_tables([
         Post, KumpulTugas,
         Tugas, MataKuliah, Level,
-        User
+        User, Phile
     ], safe=True)
     return app
 
@@ -23,13 +23,14 @@ def seed():
     db.init_app(app)
     db.database.drop_tables([
         Post, KumpulTugas, Tugas,
-        MataKuliah, Level, User
+        MataKuliah, Level, User,
+        Phile
     ], safe=True)
     import seed
     return app
 
 
-from views import home, login, logout, blog_detail, sendfile
+from views import home, login, logout, blog_detail, sendfile, upload
 from views.admin import (home as admin_home,
                          user_list as admin_user_list,
                          user_create as admin_user_create,
@@ -39,10 +40,6 @@ from views.admin import (home as admin_home,
                          post_update as admin_post_update,
                          post_create as admin_post_create,
                          post_delete as admin_post_delete,
-                         tugas_list as admin_tugas_list,
-                         tugas_update as admin_tugas_update,
-                         tugas_create as admin_tugas_create,
-                         tugas_delete as admin_tugas_delete,
                          matkul_list as admin_matkul_list,
                          matkul_update as admin_matkul_update,
                          matkul_delete as admin_matkul_delete,
@@ -61,6 +58,7 @@ from views.mhs import (home as mhs_home,
 app.add_url_rule('/logout', 'logout', logout)
 app.add_url_rule('/login', 'login', login, methods=['GET', 'POST'])
 app.add_url_rule('/sendfile/<int:file_id>/', 'sendfile', sendfile)
+app.add_url_rule('/upload/', 'upload', upload, methods=['POST'])
 
 app.add_url_rule('/', 'home', home)
 app.add_url_rule('/detail/<int:post_id>/', 'post:detail', blog_detail)

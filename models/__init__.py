@@ -6,8 +6,8 @@ from app import app
 db = FlaskDB(app)
 
 from .auth import User, Level
-from .others import MataKuliah, Tugas, Post, KumpulTugas
+from .others import MataKuliah, Tugas, Post, KumpulTugas, Phile
 
 __all__ = ('db', 'User', 'Level',
            'MataKuliah', 'Tugas', 'Post',
-           'KumpulTugas')
+           'KumpulTugas', 'Phile')
