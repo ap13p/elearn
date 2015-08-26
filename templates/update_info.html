@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+{% from 'macro/home.html' import render_field %}
+{% block head_tail %}
+    <style>
+        .container-update-info {
+            margin-top: 2rem;
+            padding: 2rem;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="container container-update-info">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <a href="{{ url_for('mhs:home') }}" class="btn btn-default btn-xs">Kembali</a>
+                <b>Perbarui Informasi</b>
+            </div>
+            <div class="panel-body">
+                <form action="{{ form.action }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                    {{ form.hidden_tag() }}
+                    {{ form.profile.hidden_tag() }}
+                    {{ render_field(form.email) }}
+                    {{ render_field(form.profile.nama) }}
+                    {{ render_field(form.no_induk) }}
+                    {{ render_field(form.profile.image) }}
+                    {{ render_field(form.profile.no_telpon) }}
+                    {{ render_field(form.profile.tanggal_lahir) }}
+                    {{ render_field(form.profile.jenis_kelamin) }}
+                    {{ render_field(form.profile.alamat) }}
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" class="btn btn-primary">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{{ url_for('static', filename='vendor/ckeditor/ckeditor.js') }}"></script>
+    {{ super() }}
+{% endblock %}

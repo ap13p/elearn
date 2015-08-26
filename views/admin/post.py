@@ -7,7 +7,7 @@ from decorators import admin_required
 
 @admin_required
 def post_list():
-    posts = Post.select()
+    posts = Post.select().order_by(Post.date_created.desc())
     return object_list('admin/post/list.html', posts, var_name='posts', paginate_by=10)
 
 @admin_required
@@ -17,6 +17,7 @@ def post_create():
     if form.validate_on_submit():
         post = Post()
         form.populate_obj(post)
+        post.publik = form.publik.data or False
         post.save()
         flash('Sukses membuat posting baru')
         return redirect(url_for('admin:post:list'))

@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 import flask
-from flask import g, session
+from flask import g, session, redirect
 import config
 
 app = flask.Flask(__name__)
@@ -14,7 +14,7 @@ def create_app():
     db.database.create_tables([
         Post, KumpulTugas,
         Tugas, MataKuliah, Level,
-        User, Phile
+        User, Phile, Profile
     ], safe=True)
     return app
 
@@ -24,13 +24,21 @@ def seed():
     db.database.drop_tables([
         Post, KumpulTugas, Tugas,
         MataKuliah, Level, User,
-        Phile
+        Phile, Profile
     ], safe=True)
-    import seed
+    db.database.create_tables([
+        Post, KumpulTugas,
+        Tugas, MataKuliah, Level,
+        User, Phile, Profile
+    ], safe=True)
+    from seed import seed_it
+    seed_it(db.database)
     return app
 
 
-from views import home, login, logout, blog_detail, sendfile, upload
+from views import (home, login, logout, blog_detail,
+                   sendfile, upload, update_info,
+                   media)
 from views.admin import (home as admin_home,
                          user_list as admin_user_list,
                          user_create as admin_user_create,
@@ -55,10 +63,13 @@ from views.mhs import (home as mhs_home,
                        tugas_detail as mhs_tugas_detail,
                        tugas_kumpulkan as mhs_tugas_kumpulkan)
 
-app.add_url_rule('/logout', 'logout', logout)
-app.add_url_rule('/login', 'login', login, methods=['GET', 'POST'])
+
+app.add_url_rule('/logout/', 'logout', logout)
+app.add_url_rule('/login/', 'login', login, methods=['GET', 'POST'])
 app.add_url_rule('/sendfile/<int:file_id>/', 'sendfile', sendfile)
+app.add_url_rule('/media/<path:filepath>/', 'media', media)
 app.add_url_rule('/upload/', 'upload', upload, methods=['POST'])
+app.add_url_rule('/update-info/<int:user_id>/', 'update-info', update_info, methods=['GET', 'POST'])
 
 app.add_url_rule('/', 'home', home)
 app.add_url_rule('/detail/<int:post_id>/', 'post:detail', blog_detail)

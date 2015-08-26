@@ -2,39 +2,38 @@
 {% from 'macro/home.html' import render_post %}
 
 {% block body %}
-    <div class="jumbotron heading">
-        <div class="container">
-            <h1>CCIT Mojokerto</h1>
+<div class="jumbotron heading">
+    <div class="container">
+        <h1>CCIT Mojokerto</h1>
 
-            <p>Selamat Datang di situs CCIT Mojokerto</p>
-        </div>
+        <p>Selamat Datang di situs CCIT Mojokerto</p>
     </div>
-    <div class="container post-list">
+</div>
+<div class="container post-list">
     {% for post in posts %}
-        {{ render_post(post) }}
+    {{ render_post(post) }}
+        {% if not loop.last %}
+        <hr class="hr-post">
+        {% endif %}
     {% else %}
-        Tidak ada berita.
+        <div class="post">
+            <p class="post-body">Tidak ada berita</p>
+        </div>
     {% endfor %}
-    </div>
+</div>
+<nav>
+    <ul class="pager">
+        {% if page > 1 %}
+        <li><a href="?page={{ page - 1 }}">Previous</a></li>
+        {% else %}
+        <li class="disabled"><a href="#">Previous</a></li>
+        {% endif %}
+        {% if page < pagination.get_pages() %}
+        <li><a href="?page={{ page + 1 }}">Next</a></li>
+        {% else %}
+        <li class="disabled"><a href="#">Next</a></li>
+        {% endif %}
+    </ul>
+</nav>
 {% endblock %}
 
-{% block head_tail %}
-    <style>
-        body {
-            padding-top: 50px;
-            padding-bottom: 40px;
-            background: url({{ url_for('static', filename='img/noise2.png') }});
-        }
-
-        .heading {
-            background: url({{ url_for('static' , filename= 'img/background.jpg') }}) center center;
-            background-size: cover;
-            color: white;
-            text-shadow: 0 0 5px rgba(0, 0, 0, .8);
-        }
-    .post-list {
-        background: #f8f8f8;
-        padding:10px;
-    }
-    </style>
-{% endblock %}

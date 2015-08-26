@@ -14,6 +14,7 @@ class Phile(db.Model):
 class Post(db.Model):
     judul = CharField(max_length=100)
     konten = TextField()
+    date_created = DateField(default=datetime.now)
     publik = BooleanField(default=True)
 
 

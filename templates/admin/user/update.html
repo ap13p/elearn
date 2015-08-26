@@ -1,9 +1,19 @@
 {% extends 'admin/_layout.html' %}
-{% from 'macro/home.html' import render_form %}
-
+{% from 'macro/home.html' import render_field %}
 {% block content %}
     <div class="admin-content-header">
         <a href="{{ url_for('admin:user:list') }}" class="btn btn-default">Kembali</a>
     </div>
-    {{ render_form(form) }}
+    <form action="{{ form.action }}" class="form-horizontal">
+        {{ render_field(form.email) }}
+        {{ render_field(form.profile.nama) }}
+        {{ render_field(form.password) }}
+        {{ render_field(form.no_induk) }}
+        {{ render_field(form.level) }}
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-primary">
+            </div>
+        </div>
+    </form>
 {% endblock %}

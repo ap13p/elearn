@@ -6,7 +6,7 @@ from decorators import admin_required
 
 @admin_required
 def matkul_list():
-    matkuls = MataKuliah.select()
+    matkuls = MataKuliah.select().order_by(MataKuliah.kode.desc())
     return object_list('admin/matkul/list.html', matkuls, var_name='matkuls', paginate_by=10)
 
 @admin_required

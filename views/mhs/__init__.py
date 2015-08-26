@@ -3,7 +3,6 @@ from flask import render_template, g, flash, request, url_for, current_app, redi
 from forms.others import KumpulkanTugasForm
 from models import User, Tugas, KumpulTugas, MataKuliah, Post, Level, Phile
 from decorators import mhs_required, current_user
-from peewee import JOIN
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 

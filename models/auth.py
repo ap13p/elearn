@@ -8,16 +8,20 @@ from playhouse.signals import Model, pre_save
 class Level(db.Model):
     name = CharField(max_length=20)
 
+class Profile(db.Model):
+    nama = CharField(max_length=60)
+    alamat = TextField(null=True)
+    tanggal_lahir = DateField(null=True)
+    no_telpon = CharField(max_length=20, null=True)
+    jenis_kelamin = CharField(max_length=1)
+    image = TextField(null=True, default='/static/img/default-account.jpg')
 
 class User(db.Model, Model):
-    name = CharField(max_length=60)
     email = CharField(max_length=100)
     password = CharField(max_length=60)
     level = ForeignKeyField(Level)
-    alamat = TextField()
-    no_telpon = CharField(max_length=20)
-    tanggal_lahir = DateField()
     no_induk = CharField(max_length=20)
+    profile = ForeignKeyField(Profile)
 
     def check_password(self, password):
         return check_password_hash(self.password, password)

@@ -47,7 +47,7 @@
                         </li>
                     {% endif %}
                     <li>
-                        <p class="navbar-text">Masuk sebagai {{ g.user.name }}</p>
+                        <p class="navbar-text">Masuk sebagai {{ g.user.profile.nama }}</p>
                     </li>
                     <li>
                         <a href="{{ url_for('logout') }}">Logout</a>
@@ -63,10 +63,11 @@
 {% block body %}
 {% endblock %}
 
-
-<script src="{{ url_for('static', filename='js/jquery-2.1.4.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% block javascript %}
+    <script src="{{ url_for('static', filename='js/jquery-2.1.4.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% endblock %}
 {% block body_tail %}
 {% endblock %}
 </body>

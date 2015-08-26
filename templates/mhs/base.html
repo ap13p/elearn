@@ -7,7 +7,7 @@
             <div class="col-md-2">
                 <div class="list-group">
                     {% for d in dosens %}
-                        <a href="{{ url_for('mhs:home') }}?dosen_id={{ d.id }}" class="list-group-item">{{ d.name }}</a>
+                        <a href="{{ url_for('mhs:home') }}?dosen_id={{ d.id }}" class="list-group-item">{{ d.profile.nama }}</a>
                     {% endfor %}
                 </div>
             </div>

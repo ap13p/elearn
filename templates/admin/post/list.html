@@ -15,7 +15,12 @@
             <tr>
                 <td>{{ loop.index }}</td>
                 <td>{{ post.judul }}</td>
-                <td>{{ post.publik }}</td>
+                <td>
+                    <div class="squaredOne">
+                        <input type="checkbox"{% if post.publik %} checked {% endif %}name="checkbox-{{ post.id }}" id="checkbox-{{ post.id }}" disabled>
+                        <label for="checkbox-{{ post.id }}"></label>
+                    </div>
+                </td>
                 <td>
                     <div class="btn-group btn-group-xs">
                         <a href="{{ url_for('admin:post:update', post_id=post.id) }}" class="btn btn-default">Update</a>
@@ -25,7 +30,7 @@
             </tr>
         {% else %}
             <tr>
-            <td colspan="4">Tabel Posting kosong</td>
+                <td colspan="4">Tabel Posting kosong</td>
             </tr>
         {% endfor %}
     </table>

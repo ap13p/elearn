@@ -1,9 +1,11 @@
+from forms.user import UpdateInfoForm
 import os
 from datetime import datetime
-from flask import render_template, request, flash, session, url_for, redirect, send_file, current_app, jsonify
+from flask import render_template, request, flash, session, url_for, redirect, send_file, current_app, jsonify, g, abort
 from forms import LoginForm
-from models import Post, User, KumpulTugas
+from models import Post, User, Profile, Level
 from models.others import Phile
+from flask_peewee.utils import object_list, get_object_or_404
 from werkzeug.utils import secure_filename
 
 
@@ -20,10 +22,11 @@ def generate_path():
 
 def home():
     posts = Post.select().where(Post.publik == True)
-    return render_template('home.html', posts=posts)
+    return object_list('home.html', posts, var_name='posts')
 
 def blog_detail(post_id):
-    return 'blog detail'
+    post = get_object_or_404(Post, Post.id == post_id)
+    return render_template('detail.html', post=post)
 
 
 def login():
@@ -80,3 +83,38 @@ def upload():
             'message': 'File cannot be uploaded'
         }
     })
+
+def get_user_media_path(user):
+    import os
+    from flask import current_app as app
+    path = os.path.join(app.config['MEDIA_ROOT'], secure_filename(user.email))
+    if not os.path.exists(path):
+        os.makedirs(path)
+    return path
+
+def update_info(user_id):
+    if not g.user.id == user_id:
+        return abort(401)
+    user = User.select().join(Profile).where(User.id == user_id).get()
+    form = UpdateInfoForm(request.form, obj=user)
+    form.action = url_for('update-info', user_id=user_id)
+    if form.validate_on_submit():
+        user.profile.nama = form.profile.nama.data
+        user.profile.no_telpon = form.profile.no_telpon.data
+        user.profile.tanggal_lahir = form.profile.tanggal_lahir.data
+        user.profile.alamat = form.profile.alamat.data
+        path = get_user_media_path(user)
+        phile = request.files['profile-image']
+        if phile:
+            print 'has file'
+            path = os.path.join(path, secure_filename(phile.filename))
+            phile.save(path)
+            user.profile.image = url_for('media', filepath=path)
+        user.profile.save()
+        user.save()
+        return redirect(url_for('mhs:home'))
+    return render_template('update_info.html', form=form, user=user)
+
+
+def media(filepath):
+    return send_file(filepath)

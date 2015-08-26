@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% from 'macro/home.html' import render_post %}
+
+{% block body %}
+    <div class="jumbotron heading">
+        <div class="container">
+            <h1>CCIT Mojokerto</h1>
+
+            <p>Selamat Datang di situs CCIT Mojokerto</p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="post">
+            <h2 class="post-title">{{ post.judul }}</h2>
+
+            <div class="post-meta">
+                <small class="post-date">{{ post.date_created|datetime("%d") }}</small>
+                <small class="post-month">{{ post.date_created|datetime("%b") }}</small>
+            </div>
+            <div class="post-body">
+                {{ post.konten|safe }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

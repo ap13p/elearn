@@ -32,7 +32,7 @@ class TugasForm(Form):
 class PostForm(Form):
     judul = StringField(validators=[input_required()])
     konten = CKEditorField(validators=[input_required()])
-    publik = BooleanField(validators=[input_required()], default=True)
+    publik = BooleanField(validators=[optional()], default=True)
 
 class KumpulkanTugasForm(Form):
     phile = FileField(label='File', validators=[input_required()])
