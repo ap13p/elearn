@@ -8,7 +8,7 @@ from . import CKEditorField
 
 def get_dosen():
     level = Level.select().where(Level.name == 'dosen')
-    users = [(user.id, user.name) for user in User.select().where(User.level == level)]
+    users = [(user.id, user.profile.nama) for user in User.select().where(User.level == level)]
     return users
 
 

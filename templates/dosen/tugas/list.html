@@ -10,6 +10,7 @@
             <th>Judul</th>
             <th width="15%">Mata Kuliah</th>
             <th width="15%">Tanggal Terakhir</th>
+            <th width="15%">Total Mengumpulkan</th>
             <th width="10%">Aksi</th>
         </tr>
         {% for tugas in tugass %}
@@ -18,6 +19,7 @@
                 <td><a href="{{ url_for('dosen:tugas:detail', tugas_id=tugas.id) }}">{{ tugas.judul }}</a></td>
                 <td>{{ tugas.mata_kuliah.judul }}</td>
                 <td>{{ tugas.tanggal_terakhir }}</td>
+                <td>{{ tugas.k_tugas_count|default('0') }} Mahasiswa</td>
                 <td>
                     <div class="btn-group btn-group-xs">
                         <a href="{{ url_for('dosen:tugas:update', tugas_id=tugas.id) }}" class="btn btn-default">Update</a>

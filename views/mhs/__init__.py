@@ -1,7 +1,7 @@
 import os
 from flask import render_template, g, flash, request, url_for, current_app, redirect
 from forms.others import KumpulkanTugasForm
-from models import User, Tugas, KumpulTugas, MataKuliah, Post, Level, Phile
+from models import User, Tugas, KumpulTugas, MataKuliah, Post, Level, Phile, Profile
 from decorators import mhs_required, current_user
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
@@ -34,7 +34,7 @@ def home():
 @mhs_required
 def tugas_detail(tugas_id):
     lvl_dosen = Level.select().where(Level.name == 'dosen')
-    dosens = User.select(User.name, User.id).where(User.level == lvl_dosen)
+    dosens = User.select().join(Profile).where(User.level == lvl_dosen)
     tugas = Tugas.get(Tugas.id == tugas_id)
     user = current_user()
     try:

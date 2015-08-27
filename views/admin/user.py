@@ -1,5 +1,5 @@
 from forms.user import UserForm, get_level, LevelForm
-from models import Level, User
+from models import Level, User, Profile
 from flask import render_template, request, url_for, redirect, g, flash
 from flask_peewee.utils import object_list
 from decorators import admin_required
@@ -21,7 +21,7 @@ def user_create():
 
 @admin_required
 def user_list():
-    users = User.select().join(Level)
+    users = User.select()
     return object_list('admin/user/list.html', users, 'users', paginate_by=10)
 
 @admin_required

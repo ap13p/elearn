@@ -15,7 +15,7 @@
             <tr>
                 <td>{{ matkul.kode }}</td>
                 <td>{{ matkul.judul }}</td>
-                <td>{{ matkul.dosen.name }}</td>
+                <td>{{ matkul.dosen.profile.nama }}</td>
                 <td>
                     <div class="btn-group btn-group-xs">
                         <a href="{{ url_for('admin:matkul:update', matkul_id=matkul.id) }}" class="btn btn-default">Update</a>

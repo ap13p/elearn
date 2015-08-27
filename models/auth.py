@@ -29,6 +29,9 @@ class User(db.Model, Model):
     def generate_password(self, raw_password):
         return generate_password_hash(raw_password)
 
+    class Meta:
+        order_by = ('-no_induk',)
+
 
 @pre_save(sender=User)
 def on_pre_save_user(model_cls, instance, created):

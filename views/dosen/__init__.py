@@ -3,15 +3,22 @@ from flask_peewee.utils import object_list
 from forms.others import TugasForm
 from models import KumpulTugas, Tugas, MataKuliah, User
 from decorators import dosen_required
+from peewee import fn, JOIN
 
 
 @dosen_required
 def home():
-    return render_template('dosen/home.html')
+    return redirect(url_for('dosen:tugas:list'))
 
 @dosen_required
 def tugas_list():
-    tugass = Tugas.select()
+    matkul = MataKuliah.select().where(MataKuliah.dosen == g.user)
+    tugass = (Tugas.select(Tugas, fn.Count(KumpulTugas.id)
+                           .alias('k_tugas_count'))
+              .join(KumpulTugas, JOIN.LEFT_OUTER, on=(KumpulTugas.tugas == Tugas.id))
+              .group_by(Tugas)
+              .where(Tugas.mata_kuliah == matkul))
+
     return object_list('dosen/tugas/list.html', tugass, var_name='tugass', paginate_by=10)
 
 @dosen_required

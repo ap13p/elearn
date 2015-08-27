@@ -18,9 +18,9 @@
                 <small><i class="glyphicon glyphicon-calendar"></i> {{ tugas.tanggal_terakhir }}</small>
                 <small><i class="glyphicon glyphicon-book"></i> {{ tugas.mata_kuliah.judul }}</small>
             </div>
-            <p class="tugas-keterangan">
+            <div class="tugas-keterangan">
                 {{ tugas.keterangan|safe|default('Tidak ada keterangan') }}
-            </p>
+            </div>
         </div>
         <div class="col-md-3">
             {% if sudah_mengumpulkan %}

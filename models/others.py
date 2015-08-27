@@ -17,11 +17,17 @@ class Post(db.Model):
     date_created = DateField(default=datetime.now)
     publik = BooleanField(default=True)
 
+    class Meta:
+        order_by = ('-date_created',)
+
 
 class MataKuliah(db.Model):
     kode = CharField(max_length=5)
     judul = CharField(max_length=20)
     dosen = ForeignKeyField(User)
+
+    class Meta:
+        order_by = ('kode',)
 
 
 class Tugas(db.Model):
@@ -30,12 +36,17 @@ class Tugas(db.Model):
     mata_kuliah = ForeignKeyField(MataKuliah)
     tanggal_terakhir = DateField()
 
+    class Meta:
+        order_by = ('-id',)
 
 class KumpulTugas(db.Model):
     tugas = ForeignKeyField(Tugas)
     mahasiswa = ForeignKeyField(User)
     tanggal_mengumpulkan = DateField(default=datetime.now)
     phile = ForeignKeyField(Phile)
+
+    class Meta:
+        order_by = ('-tanggal_mengumpulkan',)
 
 
 class UploadTugas(db.Model):

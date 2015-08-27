@@ -74,6 +74,11 @@ body {
     border-bottom: 1px solid #fff;
 }
 
+.tugas-keterangan img {
+    max-width: 100rem !important;
+    height: auto !important;
+}
+
 /* Checkbox */
 
 /* .squaredTwo */
