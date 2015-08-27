@@ -1,0 +1,107 @@
+{% macro render_post(post) %}
+    <div class="post">
+        <a href="{{ url_for('post:detail', post_id=post.id) }}" class="post-title">{{ post.judul }}</a>
+
+        <div class="post-meta">
+            <small class="post-date">{{ post.date_created|datetime("%d") }}</small>
+            <small class="post-month">{{ post.date_created|datetime("%b") }}</small>
+        </div>
+        <p class="post-body">
+            {{ post.konten|striptags|truncate(200) }}
+        </p>
+    </div>
+{% endmacro %}
+
+{% macro render_field(field) %}
+    <div class="form-group">
+        {{ field.label(class_='col-md-2 control-label') }}
+        <div class="col-md-10">
+            {% if field.type == 'BooleanField' %}
+                <div class="checkbox">
+                    {% if field.errors %}
+                        {{ field(class_='validation-error', title=field.description, placeholder=field.label.text) }}
+                        {{ field.label() }}
+                        {% for error in field.errors %}
+                            <small class="validation-error-message">{{ error }}</small>
+                        {% endfor %}
+                    {% else %}
+                        {{ field() }} {{ field.label() }}
+                    {% endif %}
+                </div>
+            {% elif field.type == 'DateField' %}
+                {% if field.errors %}
+                    {{ field(class_='validation-error form-control', title=field.description, placeholder='2015-09-21') }}
+                    {% for error in field.errors %}
+                        <small class="validation-error-message">{{ error }}</small>
+                    {% endfor %}
+                {% else %}
+                    {{ field(class_='form-control', title=field.description, placeholder='2015-09-21') }}
+                {% endif %}
+            {% else %}
+                {% if field.errors %}
+                    {{ field(class_='validation-error form-control', title=field.description, placeholder=field.label.text) }}
+                    {% for error in field.errors %}
+                        <small class="validation-error-message">{{ error }}</small>
+                    {% endfor %}
+                {% else %}
+                    {{ field(class_='form-control', title=field.description, placeholder=field.label.text) }}
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro render_form2(form) %}
+    <form action="{{ form.action }}" class="form-horizontal" method="post">
+        {{ form.hidden_tag() }}
+        {% for field in form if field.type != 'CSRFTokenField' and field.type != 'BooleanField' %}
+            <div class="form-group">
+                {{ field.label(class_='col-sm-2 control-label') }}
+                <div class="col-sm-10">
+                    {% if field.errors %}
+                        {{ field(class_='form-control validation-error', title=field.description, placeholder=field.label.text) }}
+                        {% for error in field.errors %}
+                            <small class="validation-error-message">{{ error }}</small>
+                        {% endfor %}
+                    {% else %}
+                        {{ field(class_='form-control', title=field.description, placeholder=field.label.text) }}
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+        {% for field in form if field.type == 'BooleanField' %}
+            <div class="form-group">
+                {{ field.label(class_='col-sm-2 control-label') }}
+                <div class="col-sm-10">
+                    <div class="checkbox">
+                        {% if field.errors %}
+                            {{ field(class_='validation-error', title=field.description, placeholder=field.label.text) }}
+                            {{ field.label() }}
+                            {% for error in field.errors %}
+                                <small class="validation-error-message">{{ error }}</small>
+                            {% endfor %}
+                        {% else %}
+                            {{ field() }} {{ field.label() }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10"><input type="submit" value="Submit" class="btn btn-primary"></div>
+        </div>
+    </form>
+{% endmacro %}
+
+{% macro render_form(form) %}
+
+    <form action="{{ form.action }}" class="form-horizontal" method="post">
+        {{ form.hidden_tag() }}
+        {% for field in form if field.type != 'CSRFTokenField' %}
+            {{ render_field(field) }}
+        {% endfor %}
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10"><input type="submit" value="Submit" class="btn btn-primary"></div>
+        </div>
+    </form>
+{% endmacro %}

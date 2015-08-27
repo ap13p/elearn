@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+{% block body %}
+    <div class="container-fluid">
+        {% block content_heading %}
+        {% endblock %}
+        <div class="row">
+            <div class="col-md-2">
+                <div class="list-group">
+                    {% for d in dosens %}
+                        <a href="{{ url_for('mhs:home') }}?dosen_id={{ d.id }}"
+                           class="list-group-item{% if (dosen_id|int) == d.id %} active{% endif %}">
+                            {{ d.profile.nama }} - {{ d.matakuliah.judul }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-10">
+                {% block content %}
+                {% endblock content %}
+            </div>
+        </div>
+    </div>
+{% endblock body %}

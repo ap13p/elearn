@@ -1,0 +1,36 @@
+{% extends 'dosen/home.html' %}
+
+{% block content %}
+    <div class="admin-content-header">
+        <a href="{{ url_for('dosen:tugas:list') }}" class="btn btn-default">Kembali</a>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <h4 class="tugas-title">{{ tugas.title }}</h4>
+
+            <div class="tugas-meta">
+                <small><i class="glyphicon glyphicon-calendar"></i> {{ tugas.tanggal_terakhir }}</small>
+                <small><i class="glyphicon glyphicon-book"></i> {{ tugas.mata_kuliah.judul }}</small>
+            </div>
+            <div class="tugas-keterangan">
+                {{ tugas.keterangan|safe }}
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Mahasiswa yang sudah mengumpulkan</div>
+                <div class="panel-body">
+                    <ul>
+                        {% for data in tugas.kumpultugas_set %}
+                            <li>{{ data.mahasiswa.profile.nama }} - <a
+                                    href="{{ url_for('sendfile', file_id=data.phile.id, download=True) }}">download</a>
+                            </li>
+                        {% else %}
+                            Tidak ada yang mengumpulkan
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

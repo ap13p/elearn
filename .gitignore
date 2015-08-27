@@ -1,8 +1,9 @@
+/data.sqlite
+/virtenv
+/apps/app_media_root
 # Created by .ignore support plugin (hsz.mobi)
 
-virtenv/
 .openshift/
-*.sqlite
 static/vendor/
 app_media_root/
 
