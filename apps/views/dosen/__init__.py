@@ -1,10 +1,13 @@
 from flask import render_template, g, flash, redirect, url_for, request
 from flask_peewee.utils import object_list
+from werkzeug.datastructures import FileStorage
+from werkzeug.utils import secure_filename
+from peewee import fn, JOIN
 
 from apps.forms.others import TugasForm
-from apps.models import KumpulTugas, Tugas, MataKuliah, User
+from apps.models import KumpulTugas, Tugas, MataKuliah, TugasFile, Phile
 from apps.decorators import dosen_required, current_user
-from peewee import fn, JOIN
+from apps.views import generate_path
 
 
 @dosen_required
@@ -14,13 +17,15 @@ def home():
 
 @dosen_required
 def tugas_list():
-    tugass = (Tugas.select(Tugas, fn.Count(KumpulTugas.id).alias('k_tugas_count'))
-              .join(KumpulTugas, JOIN.LEFT_OUTER, on=(KumpulTugas.tugas == Tugas.id))
-              .join(MataKuliah, on=(Tugas.mata_kuliah == MataKuliah.id))
-              .group_by(Tugas)
-              .where(MataKuliah.dosen == current_user()))
+    tugass = (
+    Tugas.select(Tugas, fn.Count(KumpulTugas.id).alias('k_tugas_count'))
+    .join(KumpulTugas, JOIN.LEFT_OUTER, on=(KumpulTugas.tugas == Tugas.id))
+    .join(MataKuliah, on=(Tugas.mata_kuliah == MataKuliah.id))
+    .group_by(Tugas)
+    .where(MataKuliah.dosen == current_user()))
 
-    return object_list('dosen/tugas/list.html', tugass, var_name='tugass', paginate_by=10)
+    return object_list('dosen/tugas/list.html', tugass, var_name='tugass',
+                       paginate_by=10)
 
 
 @dosen_required
@@ -64,6 +69,23 @@ def tugas_create():
         matkul = MataKuliah.get(MataKuliah.dosen == user)
         tugas.mata_kuliah = matkul
         tugas.save()
+
+        file_list = request.files.getlist('file_pendukung')
+        for f in file_list:
+            if isinstance(f, FileStorage):
+                import os
+                save_to = os.path.join(generate_path(),
+                                       secure_filename(user.email))
+                if not os.path.exists(save_to):
+                    os.makedirs(save_to)
+                save_to = os.path.join(save_to, secure_filename(f.filename))
+                f.save(save_to)
+                p = Phile.create(
+                    filename=f.filename,
+                    filepath=save_to,
+                    filetype=f.mimetype
+                )
+                TugasFile.create(tugas=tugas, phile=p)
         flash('Sukses membuat tugas')
         return redirect(url_for('dosen:tugas:list'))
     return render_template('dosen/tugas/create.html', form=form)
@@ -72,6 +94,7 @@ def tugas_create():
 @dosen_required
 def tugas_detail(tugas_id):
     tugas = (Tugas.select(Tugas, KumpulTugas)
-             .join(KumpulTugas, on=(KumpulTugas.tugas == Tugas.id))
+             .join(KumpulTugas, JOIN.LEFT_OUTER,
+                   on=(KumpulTugas.tugas == Tugas.id))
              .where(Tugas.id == tugas_id)).get()
     return render_template('dosen/tugas/detail.html', tugas=tugas)

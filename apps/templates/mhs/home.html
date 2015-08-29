@@ -25,12 +25,14 @@
         .td-label {
             font-weight: bold;
         }
-    .panel-info {
-        padding: 1rem;
-    }
-    .btn-update-info {
-        margin-top: 5px;
-    }
+
+        .panel-info {
+            padding: 1rem;
+        }
+
+        .btn-update-info {
+            margin-top: 5px;
+        }
     </style>
 {% endblock %}
 {% block content_heading %}
@@ -40,14 +42,16 @@
 
             <div class="list-group list-group-berita">
                 {% for post in posts %}
-                    <a href="{{ url_for('post:detail', post_id=post.id) }}" class="list-group-item">
+                    <a href="{{ url_for('post:detail', post_id=post.id) }}"
+                       class="list-group-item">
                         <h4 class="list-group-item-heading">{{ post.judul }}</h4>
 
                         <p class="list-group-item-text">{{ post.konten|striptags|truncate(150) }}</p>
                     </a>
                 {% else %}
                     <a href="#" class="list-group-item">
-                        <div class="list-group-item-heading">Tidak ada berita</div>
+                        <div class="list-group-item-heading">Tidak ada berita
+                        </div>
                         <div class="list-group-item-text">Kosong</div>
                     </a>
                 {% endfor %}
@@ -101,9 +105,11 @@
                             </tr>
                         </table>
                         <a href="{{ url_for('update-info', user_id=g.user.id) }}"
-                           class="btn btn-default btn-xs btn-update-info">Update Informasi</a>
+                           class="btn btn-default btn-xs btn-update-info">Update
+                            Informasi</a>
                         <a href="{{ url_for('change-password', user_id=g.user.id) }}"
-                           class="btn btn-danger btn-xs btn-update-info">Ganti Password</a>
+                           class="btn btn-danger btn-xs btn-update-info">Ganti
+                            Password</a>
                     </div>
                 </div>
             </div>
@@ -124,7 +130,8 @@
                 </p>
             </a>
         {% else %}
-            <p class="list-group-item">Tidak ada tugas untuk mata kuliah {{ dosen.matakuliah.judul }}</p>
+            <p class="list-group-item">Tidak ada tugas untuk mata
+                kuliah {{ dosen.matakuliah.judul }}</p>
         {% endfor %}
     </div>
 {% endblock %}

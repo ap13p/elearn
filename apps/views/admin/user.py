@@ -28,6 +28,7 @@ def user_create():
         print form.errors
     return render_template('admin/user/create.html', form=form)
 
+
 @admin_required
 def user_list():
     users = User.select()
@@ -35,6 +36,7 @@ def user_list():
     if _level:
         users = users.join(Level).where(Level.name == _level)
     return object_list('admin/user/list.html', users, 'users', paginate_by=10)
+
 
 @admin_required
 def user_update(user_id):
@@ -47,9 +49,12 @@ def user_update(user_id):
     if form.validate_on_submit():
         form.populate_obj(user)
         user.level = Level.get(Level.id == form.level.data)
+        user.profile.nama = form.profile.nama.data
+        user.profile.save()
         user.save()
         return redirect(url_for('admin:user:list'))
     return render_template('admin/user/update.html', form=form, user=user)
+
 
 @admin_required
 def user_delete(user_id):
@@ -60,7 +65,7 @@ def user_delete(user_id):
             flash('Tidak bisa menghapus user', 'error')
             return redirect(url_for('admin:user:list'))
         if user:
-            user.delete_instance()
+            user.delete_instance(True)
         return redirect(url_for('admin:user:list'))
     else:
         return redirect(url_for('login'))

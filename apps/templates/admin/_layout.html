@@ -6,8 +6,10 @@
 
     <title>{% block admin_title %}Admin{% endblock %}</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
     <style>
         body {
             padding-top: 50px;
@@ -36,20 +38,24 @@
                 <a href="{{ url_for('admin:matkul:list') }}"
                    class="list-group-item{% if request.PATH_INFO == url_for('admin:matkul:list') %} active{% endif %}">Mata
                     Kuliah</a>
-                <a href="#" class="list-group-item list-group-item-info disabled">Action</a>
+                <a href="#"
+                   class="list-group-item list-group-item-info disabled">Action</a>
                 <a href="{{ url_for('change-password', user_id=g.user.id) }}"
                    class="list-group-item">Ganti
                     Password</a>
-                <a href="{{ url_for('logout') }}" class="list-group-item">Logout</a>
+                <a href="{{ url_for('logout') }}"
+                   class="list-group-item">Logout</a>
             </div>
         </div>
         <div class="col-md-10 main-content">
             {% with messages = get_flashed_messages(with_categories=True) %}
                 {% for cat, msg in messages %}
                     {% if cat == 'error' %}
-                        <div class="alert alert-danger" role="alert">{{ msg }}</div>
+                        <div class="alert alert-danger"
+                             role="alert">{{ msg }}</div>
                     {% else %}
-                        <div class="alert alert-info" role="alert">{{ msg }}</div>
+                        <div class="alert alert-info"
+                             role="alert">{{ msg }}</div>
                     {% endif %}
                 {% endfor %}
             {% endwith %}

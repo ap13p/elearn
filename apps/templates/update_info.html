@@ -12,11 +12,13 @@
     <div class="container container-update-info">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <a href="{{ url_for('mhs:home') }}" class="btn btn-default btn-xs">Kembali</a>
+                <a href="{{ url_for('mhs:home') }}"
+                   class="btn btn-default btn-xs">Kembali</a>
                 <b>Perbarui Informasi</b>
             </div>
             <div class="panel-body">
-                <form action="{{ form.action }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                <form action="{{ form.action }}" method="POST"
+                      enctype="multipart/form-data" class="form-horizontal">
                     {{ form.hidden_tag() }}
                     {{ form.profile.hidden_tag() }}
                     {{ render_field(form.email) }}

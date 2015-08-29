@@ -1,14 +1,17 @@
 from flask_peewee.utils import object_list
 from flask import redirect, g, url_for, flash, request, render_template
+
 from apps.forms.others import PostForm
-from apps.models import Post, User
+from apps.models import Post
 from apps.decorators import admin_required
 
 
 @admin_required
 def post_list():
     posts = Post.select().order_by(Post.date_created.desc())
-    return object_list('admin/post/list.html', posts, var_name='posts', paginate_by=10)
+    return object_list('admin/post/list.html', posts, var_name='posts',
+                       paginate_by=10)
+
 
 @admin_required
 def post_create():
@@ -18,10 +21,12 @@ def post_create():
         post = Post()
         form.populate_obj(post)
         post.publik = form.publik.data or False
+        post.author = g.user
         post.save()
         flash('Sukses membuat posting baru')
         return redirect(url_for('admin:post:list'))
     return render_template('admin/post/create.html', form=form)
+
 
 @admin_required
 def post_update(post_id):
@@ -34,6 +39,7 @@ def post_update(post_id):
         flash('Sukses memperbarui posting')
         return redirect(url_for('admin:post:list'))
     return render_template('admin/post/update.html', form=form)
+
 
 @admin_required
 def post_delete(post_id):

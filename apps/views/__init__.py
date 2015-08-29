@@ -1,6 +1,8 @@
 import os
 from datetime import datetime
-from flask import render_template, request, flash, session, url_for, redirect, send_file, current_app, jsonify, g, abort
+
+from flask import render_template, request, flash, session, url_for, redirect, \
+    send_file, current_app, jsonify, g, abort
 from flask_peewee.utils import object_list, get_object_or_404
 from werkzeug.utils import secure_filename
 
@@ -145,4 +147,5 @@ def change_password(user_id):
             user.password = form.password_baru.data
             user.save()
             return redirect(next_url)
-    return render_template('change_password.html', form=form, user=user, next_url=next_url)
+    return render_template('change_password.html', form=form, user=user,
+                           next_url=next_url)

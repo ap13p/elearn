@@ -1,7 +1,9 @@
 __author__ = 'Afief'
 
 from datetime import datetime
-from peewee import CharField, TextField, BooleanField, ForeignKeyField, DateField
+
+from peewee import CharField, TextField, BooleanField, ForeignKeyField, \
+    DateField
 
 from apps.models import db
 from apps.models.auth import User
@@ -12,11 +14,13 @@ class Phile(db.Model):
     filetype = CharField(max_length=100)
     filepath = TextField()
 
+
 class Post(db.Model):
     judul = CharField(max_length=100)
     konten = TextField()
     date_created = DateField(default=datetime.now)
     publik = BooleanField(default=True)
+    author = ForeignKeyField(User)
 
     class Meta:
         order_by = ('-date_created',)
@@ -32,13 +36,20 @@ class MataKuliah(db.Model):
 
 
 class Tugas(db.Model):
-    judul = CharField(max_length=20)
+    judul = CharField(max_length=100)
     keterangan = TextField(null=True)
     mata_kuliah = ForeignKeyField(MataKuliah)
+    tanggal_dibuat = DateField(default=datetime.now)
     tanggal_terakhir = DateField()
 
     class Meta:
         order_by = ('-id',)
+
+
+class TugasFile(db.Model):
+    tugas = ForeignKeyField(Tugas)
+    phile = ForeignKeyField(Phile)
+
 
 class KumpulTugas(db.Model):
     tugas = ForeignKeyField(Tugas)
@@ -48,4 +59,3 @@ class KumpulTugas(db.Model):
 
     class Meta:
         order_by = ('-tanggal_mengumpulkan',)
-

@@ -10,3 +10,10 @@ CKEDITOR.config.extraPlugins = [
     'lineutils', 'notification'
 ].join(',');
 CKEDITOR.config.uploadUrl = '/upload/';
+
+function delete_this(target) {
+    var pr = confirm('Hapus ini?');
+    if (pr) {
+        window.location = target;
+    }
+}

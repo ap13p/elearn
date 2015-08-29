@@ -2,13 +2,16 @@ from flask import request, url_for, redirect, flash, render_template, g
 from flask_peewee.utils import object_list
 
 from apps.forms.others import MataKuliahForm, get_dosen
-from apps.models import MataKuliah, User, Level
+from apps.models import MataKuliah, User
 from apps.decorators import admin_required
+
 
 @admin_required
 def matkul_list():
     matkuls = MataKuliah.select().order_by(MataKuliah.kode.desc())
-    return object_list('admin/matkul/list.html', matkuls, var_name='matkuls', paginate_by=10)
+    return object_list('admin/matkul/list.html', matkuls, var_name='matkuls',
+                       paginate_by=10)
+
 
 @admin_required
 def matkul_create():
@@ -24,6 +27,7 @@ def matkul_create():
         return redirect(url_for('admin:matkul:list'))
     return render_template('admin/matkul/create.html', form=form)
 
+
 @admin_required
 def matkul_update(matkul_id):
     matkul = MataKuliah.get(MataKuliah.id == matkul_id)
@@ -37,6 +41,7 @@ def matkul_update(matkul_id):
         flash('Sukses memperbarui mata kuliah')
         return redirect(url_for('admin:matkul:list'))
     return render_template('admin/matkul/update.html', form=form)
+
 
 @admin_required
 def matkul_delete(matkul_id):

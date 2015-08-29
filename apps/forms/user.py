@@ -25,7 +25,8 @@ class ProfileForm(Form):
     no_telpon = TelField(validators=[optional()])
     tanggal_lahir = DateField(validators=[optional()])
     alamat = TextAreaField(validators=[optional()])
-    jenis_kelamin = SelectField(coerce=str, choices=jenkel_choices, validators=[input_required()])
+    jenis_kelamin = SelectField(coerce=str, choices=jenkel_choices,
+                                validators=[input_required()])
 
 
 class UserForm(Form):
@@ -45,10 +46,14 @@ class UpdateInfoForm(Form):
     no_induk = StringField()
     profile = FormField(ProfileForm)
 
+
 class ChangePasswordForm(Form):
-    password_lama = PasswordField(validators=[input_required()], label='Password lama')
-    password_baru = PasswordField(validators=[input_required()], label='Password baru')
+    password_lama = PasswordField(validators=[input_required()],
+                                  label='Password lama')
+    password_baru = PasswordField(validators=[input_required()],
+                                  label='Password baru')
     password_konfirm = PasswordField(
-        validators=[equal_to('password_baru', message='Harus sama dengan field password baru')],
+        validators=[equal_to('password_baru',
+                             message='Harus sama dengan field password baru')],
         label='Konfirmasi password'
     )

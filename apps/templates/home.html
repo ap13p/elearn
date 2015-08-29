@@ -2,38 +2,38 @@
 {% from 'macro/home.html' import render_post %}
 
 {% block body %}
-<div class="jumbotron heading">
-    <div class="container">
-        <h1>CCIT Mojokerto</h1>
+    <div class="jumbotron heading">
+        <div class="container">
+            <h1>CCIT Mojokerto</h1>
 
-        <p>Selamat Datang di situs CCIT Mojokerto</p>
-    </div>
-</div>
-<div class="container post-list">
-    {% for post in posts %}
-    {{ render_post(post) }}
-        {% if not loop.last %}
-        <hr class="hr-post">
-        {% endif %}
-    {% else %}
-        <div class="post">
-            <p class="post-body">Tidak ada berita</p>
+            <p>Selamat Datang di situs CCIT Mojokerto</p>
         </div>
-    {% endfor %}
-</div>
-<nav>
-    <ul class="pager">
-        {% if page > 1 %}
-        <li><a href="?page={{ page - 1 }}">Previous</a></li>
+    </div>
+    <div class="container post-list">
+        {% for post in posts %}
+            {{ render_post(post) }}
+            {% if not loop.last %}
+                <hr class="hr-post">
+            {% endif %}
         {% else %}
-        <li class="disabled"><a href="#">Previous</a></li>
-        {% endif %}
-        {% if page < pagination.get_pages() %}
-        <li><a href="?page={{ page + 1 }}">Next</a></li>
-        {% else %}
-        <li class="disabled"><a href="#">Next</a></li>
-        {% endif %}
-    </ul>
-</nav>
+            <div class="post">
+                <p class="post-body">Tidak ada berita</p>
+            </div>
+        {% endfor %}
+    </div>
+    <nav>
+        <ul class="pager">
+            {% if page > 1 %}
+                <li><a href="?page={{ page - 1 }}">Previous</a></li>
+            {% else %}
+                <li class="disabled"><a href="#">Previous</a></li>
+            {% endif %}
+            {% if page < pagination.get_pages() %}
+                <li><a href="?page={{ page + 1 }}">Next</a></li>
+            {% else %}
+                <li class="disabled"><a href="#">Next</a></li>
+            {% endif %}
+        </ul>
+    </nav>
 {% endblock %}
 

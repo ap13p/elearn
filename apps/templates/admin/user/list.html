@@ -2,7 +2,7 @@
 {% block body_tail %}
     <script>
         var $level = $('#level');
-        var _val   = "{{ request.args.get('level', 'default') }}";
+        var _val = "{{ request.args.get('level', 'default') }}";
         var _default_url = "{{ url_for('admin:user:list') }}";
         $level.val(_val);
         $level.on('change', function (evt) {
@@ -16,7 +16,8 @@
 {% endblock %}
 {% block content %}
     <div class="admin-content-header">
-        <a href="{{ url_for('admin:user:create') }}" class="btn btn-info">Tambah User</a>
+        <a href="{{ url_for('admin:user:create') }}" class="btn btn-info">Tambah
+            User</a>
         <select id="level" name="level">
             <option value="default">Level</option>
             <option value="admin">Admin</option>
@@ -40,8 +41,11 @@
                 <td>{{ user.level.name }}</td>
                 <td>
                     <div class="btn-group btn-group-xs">
-                        <a href="{{ url_for('admin:user:update', user_id=user.id) }}" class="btn btn-default">Update</a>
-                        <a href="{{ url_for('admin:user:delete', user_id=user.id) }}" class="btn btn-danger">Delete</a>
+                        <a href="{{ url_for('admin:user:update', user_id=user.id) }}"
+                           class="btn btn-default">Update</a>
+                        <a href="javascript:void(0)"
+                           onclick="delete_this('{{ url_for('admin:user:delete', user_id=user.id) }}')"
+                           class="btn btn-danger">Delete</a>
                     </div>
                 </td>
             </tr>

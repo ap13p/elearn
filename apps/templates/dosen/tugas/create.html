@@ -1,8 +1,32 @@
 {% extends 'dosen/home.html' %}
-{% from 'macro/home.html' import render_form %}
+{% from 'macro/home.html' import render_field %}
 {% block content %}
     <div class="admin-content-header">
         <a href="{{ url_for('dosen:tugas:list') }}" class="btn btn-default">Kembali</a>
     </div>
-    {{ render_form(form) }}
+    <form action="{{ form.action }}" class="form-horizontal" method="post"
+          enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        {{ render_field(form.judul) }}
+        {{ render_field(form.keterangan) }}
+        {{ render_field(form.tanggal_terakhir) }}
+        <div class="form-group">
+            {{ form.file_pendukung.label(class_='col-md-2 control-label', multiple=True) }}
+            <div class="col-md-10">
+                {% if form.file_pendukung.errors %}
+                    {{ form.file_pendukung(class_='form-control validation-error', title=field.description, placeholder=field.label.text, multiple=True) }}
+                    {% for error in form.file_pendukung.errors %}
+                        <small class="validation-error-message">{{ error }}</small>
+                    {% endfor %}
+                {% else %}
+                    {{ form.file_pendukung(class='form-control', multiple=True) }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10 col-md-offset-2">
+                <input type="submit" class="btn btn-primary">
+            </div>
+        </div>
+    </form>
 {% endblock %}

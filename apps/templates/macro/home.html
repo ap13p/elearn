@@ -1,6 +1,7 @@
 {% macro render_post(post) %}
     <div class="post">
-        <a href="{{ url_for('post:detail', post_id=post.id) }}" class="post-title">{{ post.judul }}</a>
+        <a href="{{ url_for('post:detail', post_id=post.id) }}"
+           class="post-title">{{ post.judul }}</a>
 
         <div class="post-meta">
             <small class="post-date">{{ post.date_created|datetime("%d") }}</small>
@@ -88,7 +89,10 @@
             </div>
         {% endfor %}
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10"><input type="submit" value="Submit" class="btn btn-primary"></div>
+            <div class="col-sm-offset-2 col-sm-10"><input type="submit"
+                                                          value="Submit"
+                                                          class="btn btn-primary">
+            </div>
         </div>
     </form>
 {% endmacro %}
@@ -101,7 +105,10 @@
             {{ render_field(field) }}
         {% endfor %}
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10"><input type="submit" value="Submit" class="btn btn-primary"></div>
+            <div class="col-sm-offset-2 col-sm-10"><input type="submit"
+                                                          value="Submit"
+                                                          class="btn btn-primary">
+            </div>
         </div>
     </form>
 {% endmacro %}
