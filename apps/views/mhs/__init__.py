@@ -1,7 +1,7 @@
 import os
 
 from flask import render_template, request, url_for, current_app, \
-    redirect
+    redirect, g
 from peewee import JOIN
 from werkzeug.datastructures import FileStorage
 
@@ -41,6 +41,7 @@ def home():
         dosen = dosens.first()
         dosen_id = dosen.id
     posts = Post.select().order_by(Post.id.desc())
+    user = g.user
     return render_template('mhs/home.html', dosen=dosen, dosens=dosens,
                            posts=posts, dosen_id=dosen_id)
 

@@ -72,17 +72,17 @@ def tugas_create():
 
         file_list = request.files.getlist('file_pendukung')
         for f in file_list:
-            if isinstance(f, FileStorage):
+            if isinstance(f, FileStorage) and len(f.filename) != 0:
                 import os
-                save_to = os.path.join(generate_path(),
-                                       secure_filename(user.email))
+                path = generate_path()
+                save_to = os.path.join(path, secure_filename(user.email))
                 if not os.path.exists(save_to):
                     os.makedirs(save_to)
-                save_to = os.path.join(save_to, secure_filename(f.filename))
-                f.save(save_to)
+                tujuan = os.path.join(save_to, secure_filename(f.filename))
+                f.save(tujuan)
                 p = Phile.create(
                     filename=f.filename,
-                    filepath=save_to,
+                    filepath=tujuan,
                     filetype=f.mimetype
                 )
                 TugasFile.create(tugas=tugas, phile=p)

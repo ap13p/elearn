@@ -28,7 +28,7 @@ class Post(db.Model):
 
 class MataKuliah(db.Model):
     kode = CharField(max_length=5)
-    judul = CharField(max_length=20)
+    judul = CharField(max_length=100)
     dosen = ForeignKeyField(User)
 
     class Meta:
